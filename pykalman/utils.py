@@ -107,6 +107,10 @@ class Bunch(dict):
 def get_params(obj):
     '''Get names and values of all parameters in `obj`'s __init__'''
     try:
+        # monkey patch
+        if not hasattr(inspect, 'getargspec'):
+            inspect.getargspec = inspect.getfullargspec
+        
         # get names of every variable in the argument
         args = inspect.getargspec(obj.__init__)[0]
         args.pop(0)   # remove "self"
